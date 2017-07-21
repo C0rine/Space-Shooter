@@ -13,6 +13,8 @@ public class Boundary {
 public class PlayerController : MonoBehaviour {
 
     private Rigidbody rigidBody;
+    private AudioSource audioSource;
+
     public float speed;
     public float tilt;
     public float turn;
@@ -25,12 +27,18 @@ public class PlayerController : MonoBehaviour {
     public GameObject shot;
     public Transform shotSpawn;
 
+    private void Start() {
+
+        rigidBody = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
+
+    }
+
     private void FixedUpdate() {
 
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
-
-        rigidBody = GetComponent<Rigidbody>();
+        
         Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
         rigidBody.velocity = movement * speed;
 
@@ -45,6 +53,8 @@ public class PlayerController : MonoBehaviour {
 
             nextFire = Time.time + fireRate;
             Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+
+            audioSource.Play();
          
         }
 
